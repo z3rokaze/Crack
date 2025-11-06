@@ -35,7 +35,14 @@ class FruitList {
     void addLast(String type, int amount, int price) {
         //You should write here appropriate statements to complete this function.
         //--------------------------------------------------------
-
+        Fruit f = new Fruit(type, amount, price);
+        Node newNode = new Node(f);
+        if (isEmpty()) {
+            head = tail = newNode;
+        } else {
+            tail.next = newNode;
+            tail = newNode;
+        }
         //---------------------------------------------------------
     }
 
@@ -70,7 +77,14 @@ class RequestQueue {
     void enQueue(String type, int amount) {
         //You should write here appropriate statements to complete this function.
         //--------------------------------------------------------
-
+        Fruit f = new Fruit(type, amount);
+        Node newNode = new Node(f);
+        if (isEmpty()) {
+            front = rear = newNode;
+        } else {
+            rear.next = newNode;
+            rear = newNode;
+        }
         //---------------------------------------------------------
     }
 
@@ -78,7 +92,14 @@ class RequestQueue {
         Fruit tmp = new Fruit();
         //You should write here appropriate statements to complete this function.
         //--------------------------------------------------------
-
+        if (isEmpty()) {
+            return tmp;
+        }
+        tmp = front.info;
+        front = front.next;
+        if (front == null) {
+            rear = null;
+        }
         //---------------------------------------------------------
         return tmp;
     }
@@ -151,7 +172,19 @@ class MyStore {
         ftraverse(f);
         //You should write here appropriate statements to complete this function.
         //--------------------------------------------------------
-
+        Fruit request = RQueue.deQueue();
+        if (request != null && request.getType() != null) {
+            Node p = FList.head;
+            while (p != null) {
+                if (p.info.getType().equals(request.getType())) {
+                    if (p.info.getAmount() >= request.getAmount()) {
+                        p.info.setAmount(p.info.getAmount() - request.getAmount());
+                    }
+                    break;
+                }
+                p = p.next;
+            }
+        }
         //---------------------------------------------------------
         ftraverse(f);
         f.close();
@@ -168,7 +201,21 @@ class MyStore {
         ftraverse(f);
         //You should write here appropriate statements to complete this function.
         //--------------------------------------------------------
-
+        while (!RQueue.isEmpty()) {
+            Fruit request = RQueue.deQueue();
+            if (request != null && request.getType() != null) {
+                Node p = FList.head;
+                while (p != null) {
+                    if (p.info.getType().equals(request.getType())) {
+                        if (p.info.getAmount() >= request.getAmount()) {
+                            p.info.setAmount(p.info.getAmount() - request.getAmount());
+                        }
+                        break;
+                    }
+                    p = p.next;
+                }
+            }
+        }
         //---------------------------------------------------------
         ftraverse(f);
         f.close();
@@ -186,7 +233,22 @@ class MyStore {
         int S = 0;
         //You should write here appropriate statements to complete this function.
         //--------------------------------------------------------
-
+        while (!RQueue.isEmpty()) {
+            Fruit request = RQueue.deQueue();
+            if (request != null && request.getType() != null) {
+                Node p = FList.head;
+                while (p != null) {
+                    if (p.info.getType().equals(request.getType())) {
+                        if (p.info.getAmount() >= request.getAmount()) {
+                            S += request.getAmount() * p.info.getPrice();
+                            p.info.setAmount(p.info.getAmount() - request.getAmount());
+                        }
+                        break;
+                    }
+                    p = p.next;
+                }
+            }
+        }
         //---------------------------------------------------------
         f.writeBytes("Money     : " + S + " ");
         f.close();
